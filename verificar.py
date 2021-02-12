@@ -4,6 +4,42 @@
 from os import listdir
 from os.path import isdir, isfile, join
 
+#---lista de funções---
+#def removerPastasBkp(myPath):
+#def verificaErros(myPath):
+#def verValidade(numProc):
+#def extraiNomesArquivos(myPath):
+#def extraiNomesDiretorios(myPath):
+#def verificaNomes(myPath):
+
+def removerPastasBkp(myPath):
+    listaPastasBkp = []
+    for folderName, subfolders, filenames in os.walk(myPath):
+        #print(folderName)
+        #print(folderName[-3:])
+        if folderName[-3:]=="bkp":
+            listaPastasBkp.append(folderName)
+    for pasta in listaPastasBkp:
+        shutil.rmtree(pasta)
+
+#verificar nomes de pastas que possuem letras
+#verificar nomes de pastas de volumes com erro de digitação
+#verificar arquivos com tamanho = 0
+def verificaErros(myPath):
+    for folderName, subfolders, filenames in os.walk(myPath):
+        for filename in filenames:
+            pathArquivo = folderName+"\\"+filename
+            tamanho = os.path.getsize(pathArquivo)
+            if tamanho == 0:
+                print(pathArquivo+": "+tamanho)
+
+            #print(folderName+"\\"+filename)
+            #print("nome: "+filename+"tamanho: "+os.stat(filename).st_size)
+            #print(os.path.join(myPath,filename))
+            #pathArquivo = os.path.abspath(filename)
+            #tamanho = os.path.getsize(pathArquivo)
+            #if tamanho > 10485760:
+                #print(filename + " maior que 10MB")
 
 
 def verValidade(numProc):
@@ -33,20 +69,17 @@ def verValidade(numProc):
     else:
         return False
 
-#Teste
 
-def extraiNomesArquivos(myPath):
-    #mypath = "C:/python/estudos/teste"
+def extraiNomesArquivos(myPath): #retorna lista com o nome dos arquivos no diretório informado
     onlyFiles = [f for f in listdir(myPath) if isfile(join(myPath, f))]
     return onlyFiles
 
-def extraiNomesDiretorios(myPath):
-    #mypath = "C:/python/estudos/teste"
+def extraiNomesDiretorios(myPath): #retorna lista com o nome das pastas do diretório informado
     onlyDirs = [f for f in listdir(myPath) if isdir(join(myPath, f))]
     return onlyDirs
 
-
-def verificaProcessos(myPath):
+    
+def verificaNomes(myPath):
     listaDeProcessos = extraiNomesDiretorios(myPath)
     for processo in listaDeProcessos:
         if verValidade(processo):
@@ -54,35 +87,40 @@ def verificaProcessos(myPath):
         else:
             print(processo + " é inválido")
 
+
 def main():
     op = 0
     while (op != 5):
-        print("1 - Verificar validade de um número")
-        print("2 - Verificar validade dos nomes de diretórios")
-        print("3 - Informar nome dos arquivos de um diretório")
-        print("4 - Informar nome dos subdiretórios de um diretório")
-        print("5 - Sair")
+
+        print("1 - removerPastasBkp(myPath)")
+        print("2 - verificaErros(myPath)")
+        print("3 - verValidade(numProc)")
+        print("4 - extraiNomesArquivos(myPath)")
+        print("5 - extraiNomesDiretorios(myPath)")
+        print("6 - verificaNomes(myPath)")
+        print("7 - Sair")
+        
         op = int(input("Escolha a opção: "))
         
         if op == 1:
-            processo = input("informe o número do processo: ")
-            if verValidade(processo):
-                print("válido")
-            else:
-                print("inválido")
-
+            caminho = input("diretório raiz: ")
+            removerPastasBkp(myPath)
         elif op == 2:
-            caminho = input("indique o caminho do diretório que possui subdiretórios: ")
-            verificaProcessos(caminho)
-            
+            caminho = input("diretório raiz: ")
+            verificaErros(myPath)
         elif op == 3:
-            caminho = input("indique o caminho do diretório: ")
-            extraiNomesArquivos(caminho)
-            
+            caminho = input("Número do processo: ")
+            verValidade(numProc)         
         elif op == 4:
-            caminho = input("indique o caminho do diretório: ")
-            extraiNomesDiretorios(caminho)
+            caminho = input("diretório: ")
+            extraiNomesArquivos(myPath)
         elif op == 5:
+            caminho = input("diretório: ")
+            extraiNomesDiretorios(myPath)
+        elif op == 6:
+            caminho = input("diretório: ")
+            verificaNomes(myPath)
+        elif op == 7:
             exit
         else:
             print("opção inválida\n" + "op = " + str(op))
