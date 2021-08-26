@@ -1,35 +1,32 @@
+# Copyright (C) 2021  FRANCINALDO CARVALHO <francinaldo@protonmail.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+# -*- coding: utf-8 -*-
+
+
 import pyautogui
 import docx
 import clipboard
-'''
-#ABRIR SISTEMA PROCESSUAL
-pyautogui.moveTo(270,893,0.5)
-pyautogui.click()
-pyautogui.PAUSE = 2
-pyautogui.hotkey('alt','tab')
-pyautogui.moveTo(947,411,0.5)
-pyautogui.click()
-pyautogui.typewrite('pi100035', interval=0.02)
-pyautogui.press('tab')
-pyautogui.typewrite('tere20', interval=0.02)
-pyautogui.moveTo(659,476,0.5)
-pyautogui.click()
-pyautogui.moveTo(795,606,0.5)
-pyautogui.click()
-pyautogui.moveTo(652,423,0.5)
-pyautogui.click()
+from docx import Document
 
-#ACESSAR ROTINA DE PUBLICAÇÃO
-pyautogui.moveTo(507,35,0.5)
-pyautogui.click()
-pyautogui.moveTo(507,60,0.5)
-pyautogui.click()
-pyautogui.moveTo(723,513,0.5)
-pyautogui.click()
-'''
+from caps import getCapsState
 
 def alimentarOraclePublicacao():
-    #EXCLUIR PRIMEIRO REGISTRO DA ROTINA DE PUBLICAÇÃO DO SISTEMA PROCESSUAL
+
+    #Excluir registro existente
     pyautogui.moveTo(176,157,0.5)
     pyautogui.click()
     pyautogui.click()
@@ -45,10 +42,11 @@ def alimentarOraclePublicacao():
     pyautogui.press('tab')
     pyautogui.press('tab')
 
-    #COPIA DADOS DO ARQUIVO
+    #copia dados do arquivo:
+    #alterar esta rotina para que o arquivo seja gravado em processos.txt
+    #fazer alteração na macro do Word
 
-    from docx import Document
-
+    
     input = Document('arquivo_base.docx')
 
     paragraphs = []
@@ -61,7 +59,8 @@ def alimentarOraclePublicacao():
     pyautogui.moveTo(691,437,0.5)
     pyautogui.click()
 
-    #INCLUSÃO DO PRIMEIRO REGISTRO
+    #Inclsão do primeiro registro, onde se deve desmarcar a caixa de seleção
+    #da escolha de utilizar nova localização no processos a serem inseridos
 
     #colar texto
     clipboard.copy(paragraphs[1])
@@ -90,7 +89,7 @@ def alimentarOraclePublicacao():
     pyautogui.click()
     pyautogui.press('tab')
 
-    #INCLUSÃO DOS DEMAIS REGISTROS
+    #Inclusão dos demais registros
 
     i = 2
 
@@ -123,7 +122,13 @@ def alimentarOraclePublicacao():
         pyautogui.click()
         pyautogui.press('tab')
 
+
+
+
 def main():
+    if getCapsState():
+        pyautogui.hotkey('capslock')
+
     alimentarOraclePublicacao()
 
 if __name__ == '__main__':

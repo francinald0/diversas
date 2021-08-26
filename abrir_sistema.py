@@ -18,6 +18,6 @@ pyautogui.moveTo(652,423,0.2)
 pyautogui.click()
 
 
-
+#capslock
 
 
