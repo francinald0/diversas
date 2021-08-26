@@ -1,2 +1,2 @@
 # migracao
-Ferramentas para migração de processos
+Ferramentas diversas para manipulação de arquivos e diretórios
